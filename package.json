@@ -1,0 +1,10 @@
+{
+    "name": "apisenderwhatsapp",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "vercel dev"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    }
+}

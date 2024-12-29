@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Status Permintaan</title>
+</head>
+<body>
+    <h1>Status Permintaan</h1>
+    <p>Total Permintaan: <span id="total-requests">0</span></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Nomor Target</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="request-list"></tbody>
+    </table>
+    <script>
+        async function fetchRequests() {
+            const response = await fetch('/api/get-attack');
+            const data = await response.json();
+            const list = document.getElementById('request-list');
+            const total = document.getElementById('total-requests');
+
+            total.textContent = data.length || 0;
+            list.innerHTML = data
+                .map((req) => `<tr><td>${req.target}</td><td>${req.status}</td></tr>`)
+                .join('');
+        }
+        fetchRequests();
+    </script>
+</body>
+</html>
