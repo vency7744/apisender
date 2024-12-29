@@ -9,15 +9,10 @@ export default function handler(req, res) {
             return res.status(400).json({ success: false, message: 'Target tidak ditemukan' });
         }
 
-        // Tambahkan log untuk memverifikasi target
+        // Log target yang diterima
         console.log('Target diterima:', target);
 
-        // Simpan target ke dalam log, database, atau proses lain (opsional)
-        // Misalnya: Simpan ke file
-        const fs = require('fs');
-        fs.appendFileSync('log.txt', `Target: ${target}\n`, 'utf8');
-
-        // Kirim respon berhasil
+        // Respon berhasil
         return res.status(200).json({ success: true, message: 'Request diterima.', target });
     } else {
         console.error('Metode tidak didukung:', req.method); // Log jika metode tidak didukung
