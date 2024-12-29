@@ -1,15 +1,26 @@
 export default function handler(req, res) {
+    console.log('Permintaan diterima:', req.body); // Debug log untuk mencatat permintaan
+
     if (req.method === 'POST') {
         const { target } = req.body;
+
         if (!target) {
-            return res.status(400).json({ message: 'Target diperlukan.' });
+            console.error('Target tidak ditemukan dalam permintaan'); // Log kesalahan jika target tidak ada
+            return res.status(400).json({ success: false, message: 'Target tidak ditemukan' });
         }
 
-        global.attackRequests = global.attackRequests || [];
-        global.attackRequests.push({ target, status: 'pending' });
+        // Tambahkan log untuk memverifikasi target
+        console.log('Target diterima:', target);
 
-        res.status(201).json({ message: 'Request diterima.', target });
+        // Simpan target ke dalam log, database, atau proses lain (opsional)
+        // Misalnya: Simpan ke file
+        const fs = require('fs');
+        fs.appendFileSync('log.txt', `Target: ${target}\n`, 'utf8');
+
+        // Kirim respon berhasil
+        return res.status(200).json({ success: true, message: 'Request diterima.', target });
     } else {
-        res.status(405).json({ message: 'Method not allowed' });
+        console.error('Metode tidak didukung:', req.method); // Log jika metode tidak didukung
+        return res.status(405).json({ success: false, message: 'Metode tidak didukung' });
     }
 }
